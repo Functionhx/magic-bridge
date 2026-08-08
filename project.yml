@@ -1,0 +1,85 @@
+name: MagicBridge
+
+options:
+  bundleIdPrefix: cn.com.fanyuchen
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    SWIFT_STRICT_CONCURRENCY: complete
+    CLANG_WARN_DOCUMENTATION_COMMENTS: YES
+    GCC_TREAT_WARNINGS_AS_ERRORS: YES
+    SWIFT_TREAT_WARNINGS_AS_ERRORS: YES
+
+targets:
+  MagicBridgeCore:
+    type: library.static
+    platform: macOS
+    sources:
+      - path: MagicBridge/Core
+    dependencies:
+      - sdk: libsqlite3.tbd
+      - sdk: libz.tbd
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cn.com.fanyuchen.MagicBridgeCore
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
+
+  MagicBridge:
+    type: application
+    platform: macOS
+    sources:
+      - path: MagicBridge/App
+      - path: MagicBridge/Resources
+        buildPhase: resources
+    dependencies:
+      - target: MagicBridgeCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cn.com.fanyuchen.MagicBridge
+        MARKETING_VERSION: 1.0.0
+        CURRENT_PROJECT_VERSION: 1
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: MagicBridge/Info.plist
+        ENABLE_HARDENED_RUNTIME: YES
+        CODE_SIGN_IDENTITY: "-"
+      configs:
+        Debug:
+          ENABLE_APP_SANDBOX: NO
+        Release:
+          CODE_SIGN_ENTITLEMENTS: MagicBridge/MagicBridgeAppStore.entitlements
+          ENABLE_APP_SANDBOX: YES
+    scheme:
+      testTargets:
+        - MagicBridgeTests
+
+  MagicBridgeExport:
+    type: tool
+    platform: macOS
+    sources:
+      - path: MagicBridgeExport
+    dependencies:
+      - target: MagicBridgeCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cn.com.fanyuchen.MagicBridgeExport
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
+
+  MagicBridgeTests:
+    type: bundle.unit-test
+    platform: macOS
+    sources:
+      - path: MagicBridgeTests
+    dependencies:
+      - target: MagicBridgeCore
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: cn.com.fanyuchen.MagicBridgeTests
+        GENERATE_INFOPLIST_FILE: YES
+        CODE_SIGN_IDENTITY: "-"
