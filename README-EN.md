@@ -39,6 +39,10 @@ flowchart LR
     A["Apple Notes<br/>read-only snapshot"] -->|"ephemeral archive · 0600"| B["Magic Bridge"]
     B -->|"local handoff"| C["Magic Notes"]
     B -->|"GitHub OAuth + PKCE"| D["Personal site"]
+    %% Reserve the bottom-right corner for GitHub's Mermaid controls.
+    D ~~~ Z["GitHub diagram controls"]
+    classDef spacer fill:transparent,stroke:transparent,color:transparent;
+    class Z spacer;
 ```
 
 ## Why a separate bridge?

@@ -40,6 +40,10 @@ flowchart LR
     A["Apple 备忘录<br/>只读快照"] -->|"临时迁移包 · 0600"| B["Magic Bridge"]
     B -->|"本机交接"| C["Magic Notes"]
     B -->|"GitHub OAuth + PKCE"| D["个人网站"]
+    %% 为 GitHub 的 Mermaid 缩放控件预留右下角空间。
+    D ~~~ Z["GitHub diagram controls"]
+    classDef spacer fill:transparent,stroke:transparent,color:transparent;
+    class Z spacer;
 ```
 
 ## 为什么需要独立的网桥？
